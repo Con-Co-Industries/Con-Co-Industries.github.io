@@ -42,19 +42,18 @@
 			setInterval(update, 50);
 			
 			// Every time the box is clicked, call the handleBoxClick Function (see below)
-			box.on('click', handleBoxClick);
+            box.on('click', handleBoxClick);
 
 			// moves the Box to a new position on the screen along the X-Axis and the Y-Axis
 			function moveBoxTo(newPositionX, newPositionY) {
                 box.css("left", newPositionX);
-                box.css("top", newPositionY)
-			}
-
+                box.css("top", newPositionY);
+			}            
 			// changes the text displayed on the Box
 			function changeBoxText(newText) {
 				box.text(newText);
-			}
-
+            }
+            
 			//////////////////////////////////////////////////////////////////
 			/////////////////// YOUR CODE BELOW HERE /////////////////////////
 			//////////////////////////////////////////////////////////////////
@@ -64,7 +63,7 @@
             var points = 0;
             var speedX = 10;
             var positionY = 100;
-            var speedY = 10;
+            var speedY = 10;           
             
             			
 			/* 
@@ -74,7 +73,7 @@
 			*/
 			function update() {
                 positionX = positionX + speedX;
-                positionY = positionY + speedY
+                positionY = positionY + speedY;
                 moveBoxTo(positionX,positionY);
                 if (positionX + 70 > boardWidth) {
                     speedX = -speedX;
@@ -113,7 +112,7 @@
                 
 
 
-			};
+            };            
 		})();
 	</script>
 </body>
