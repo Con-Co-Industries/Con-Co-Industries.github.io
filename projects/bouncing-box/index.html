@@ -63,7 +63,9 @@
             var points = 0;
             var speedX = 10;
             var positionY = 100;
-            var speedY = 10;           
+            var speedY = 10;
+            var randNumX = Math.random() * boardWidth;
+            var randNumY = Math.random() * boardHeight;         
             
             			
 			/* 
@@ -95,13 +97,15 @@
 			the left side of the screen.
 			*/
 			function handleBoxClick() {
-                positionX = 0;
+                randNumX = Math.random() * boardWidth;
+                randNumY = Math.random() * boardHeight;
+                positionX = randNumX;
                 if (speedX > 0) {
                     speedX += 3;
                 } else {
                     speedX -= 3;
                 }
-                positionY = 100;
+                positionY = randNumY;
                 if (speedY > 0) {
                     speedY += 3;
                 } else {
