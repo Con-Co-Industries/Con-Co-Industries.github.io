@@ -49,15 +49,19 @@ var init = function (window) {
                        
 
             
-            // TODO 5 : Call game.checkCirclePosition() on your circles.
+            // TODO 5 : Call game.makeCircleGlide() on your circles.
                         
            
 
             // TODO 8 : Iterate over the array
             for (var i = 0; i < circles.length; i++) {
-                var eachCircle = circles[i];
-                physikz.updatePosition(eachCircle);
-                game.checkCirclePosition(eachCircle);
+                physikz.updatePosition(circles[i]);
+                if (0 === i % 2) {
+                    game.makeCircleGlide(circles[i]);
+                } else {
+                    game.makeCircleBounce(circles[i]);
+                }
+                
 
             }
            
@@ -69,7 +73,7 @@ var init = function (window) {
         Function. If that circle drifts off the screen, this Function should move
         it to the opposite side of the screen.
         */
-        game.checkCirclePosition = function(circle) {
+        game.makeCircleGlide = function(circle) {
 
             // if the circle has gone past the RIGHT side of the screen then place it on the LEFT
             if ( circle.x > canvas.width ) {
@@ -89,7 +93,19 @@ var init = function (window) {
 
             // YOUR TODO 6 CODE ENDS HERE //////////////////////////
         }
-        
+        game.makeCircleBounce = function(circle) {
+            if ( circle.x > canvas.width ) {
+                circle.velocityX = -circle.velocityX;
+            } else if ( circle.x < 0 ) {
+                circle.velocityX = -circle.velocityX;      
+            } 
+            
+            if ( circle.y > canvas.height ) {
+                circle.velocityY = -circle.velocityY;
+            } else if ( circle.y < 0 ) {
+                circle.velocityY = -circle.velocityY;
+            }
+        }
         /////////////////////////////////////////////////////////////
         // --- NO CODE BELOW HERE  --- DO NOT REMOVE THIS CODE --- //
         /////////////////////////////////////////////////////////////
