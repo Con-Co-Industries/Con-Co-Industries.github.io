@@ -1,0 +1,5 @@
+Make sure you do this at the end of every class:
+
+1) git add -A
+2) git commit -m "Write Message About What Changed Since Last Time"
+3) git push

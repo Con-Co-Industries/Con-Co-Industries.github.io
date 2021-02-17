@@ -25,7 +25,7 @@
         
         //Objects//
         var backgroundObj = {x:0,y:0,width:canvas.width,height:canvas.height,color:"green"}
-        var playerObj = {x:1,y:canvas.height-100,width:50,height:50,color:"cyan",speedX:0,speedY:0}
+        var playerObj = {x:1,y:canvas.height-103,width:50,height:50,color:"cyan",speedX:0,speedY:0}
         var terrainObj = {x:0,y:canvas.height-50,width:canvas.width,height:40,color:"gray"}
         
         function borders() {
@@ -71,10 +71,21 @@
             }
         }
 
-        function collision(){
-            if (playerObj.y+playerObj.height>terrainObj.y) {
-                playerObj.speedY = 0;
-                playerObj.y = terrainObj.y-playerObj.height;
+        function collisionCheck(){
+            if (playerObj.y > terrainObj.y+terrainObj.height){
+                ctx.fillText("top",playerObj.x+10,playerObj.y-10);
+            } else if (playerObj.y+playerObj.height < terrainObj.height) {
+                ctx.fillText("bottom",playerObj.x+20,playerObj.y-10);
+
+            } else if (playerObj.x > terrainObj.x+terrainObj.width) {
+                ctx.fillText("left",playerObj.x+30,playerObj.y-10);
+
+            } else if (playerObj.x+playerObj.width < terrainObj.x) {
+                ctx.fillText("right",playerObj.x+40,playerObj.y-10);
+
+            } else {
+               //console.log("Player and Terrain Have Collided!!!")
+               ctx.fillText("collided",playerObj.x+10,playerObj.y-10);
             }
         }
 
@@ -96,7 +107,7 @@
             // use this if you want the player to have gravity: playerObj.speedY =playerObj.speedY + gravity;//
             playerObj.x = playerObj.x + playerObj.speedX;
             playerObj.y = playerObj.y + playerObj.speedY;
-            collision();
+            collisionCheck();
             borders();
             
         }
