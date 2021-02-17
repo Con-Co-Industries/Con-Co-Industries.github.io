@@ -6,9 +6,9 @@
 	<script src="jquery.min.js"></script>
 	<style>
 		.box {
-			width: 70px;
-			height: 70px;
-			background-color: teal;
+			width: 420px;
+			height: 420px;
+			background-color: maroon;
 			font-size: 300%;
 			text-align: center;
 			display: block;
@@ -77,13 +77,13 @@
                 positionX = positionX + speedX;
                 positionY = positionY + speedY;
                 moveBoxTo(positionX,positionY);
-                if (positionX + 70 > boardWidth) {
+                if (positionX + 420 > boardWidth) {
                     speedX = -speedX;
                 }
                 if (positionX < 0) {
                     speedX = -speedX;
                 }
-                if (positionY + 70 > boardHeight) {
+                if (positionY + 420 > boardHeight) {
                     speedY = -speedY;
                 }
                 if (positionY < 0) {

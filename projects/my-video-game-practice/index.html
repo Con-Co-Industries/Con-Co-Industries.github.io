@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Video Game</title>
+    <style>
+       body{
+           background-color: #fddbac;
+       }
+        #myCanvas {
+            background-color: white;
+            border-style: solid;
+            border-color: #fddbac;
+            border-radius: 5px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -250px;
+            margin-top: -250px;
+        }
+
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="500" height="500"></canvas>
+    
+    
+    
+    <script>
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        setInterval(update, 50);
+        var x = 175;
+        var y = 175;
+        var DownPressed = false;
+        var UpPressed = false;
+        var RightPressed = false;
+        var LeftPressed = false;
+        var speedX = 0;
+        var speedY = 0;
+        var frictionVar = 1;
+        var health = 100;
+        var rockList = [];
+        for (var i=0; i<10; i++) {
+            rockList.push({
+                x: Math.random()*(canvas.width-20),
+                y: Math.random()*(canvas.height-20),
+                width: 20,
+                height: 20,
+                speedX: 1,
+                speedY: 1,                
+            })
+        }        
+
+        document.addEventListener("keydown", keyDownHandler, false);
+        document.addEventListener("keyup", keyUpHandler, false);
+
+        function keyDownHandler(e) {
+        if(e.key === "ArrowDown") {
+                DownPressed = true;
+            }
+        if(e.key === "ArrowUp") {
+                UpPressed = true;
+            }
+        if(e.key === "ArrowRight") {
+                RightPressed = true;
+            }
+        if(e.key === "ArrowLeft") {
+                LeftPressed = true;
+            }
+
+        }
+
+        function keyUpHandler(e) {
+        if(e.key === "ArrowDown") {
+                DownPressed = false;
+            }
+        if(e.key === "ArrowUp") {
+                UpPressed = false;
+            }
+        if(e.key === "ArrowRight") {
+                RightPressed = false;
+            }
+        if(e.key === "ArrowLeft") {
+                LeftPressed = false;
+            }
+
+        }
+
+        function movementKeys() {
+            if (DownPressed) {
+                speedY = speedY + 2;
+            }
+            if (UpPressed) {
+                speedY = speedY - 2;
+            }
+            if (RightPressed) {
+                speedX = speedX + 2;
+            }
+            if (LeftPressed) {
+                speedX = speedX - 2;
+            }
+        }
+        
+        function friction(){
+            if (speedX === 0) {
+
+            } else if(speedX>0) {
+                speedX = speedX - frictionVar;
+            } else {
+                speedX = speedX + frictionVar;
+            }
+            
+            if (speedY === 0) {
+
+            } else if(speedY>0) {
+                speedY = speedY - frictionVar;
+            } else {
+                speedY = speedY + frictionVar;
+            }
+            if (Math.abs(speedX)<.5){
+                speedX = 0;
+            }
+            if (Math.abs(speedY)<.5){
+                speedY = 0;
+            }
+        }
+        function borders() {
+            if (x<=0) {
+                speedX = 0;
+                x = 0;
+            }
+            if (y<=0) {
+                speedY = 0;
+                y = 0;
+            }
+            if (x+150>=canvas.width) {
+                speedX = 0;
+                x = canvas.width-150;
+            }
+            if (y+150>=canvas.height) {
+                speedY = 0;
+                y = canvas.height-150;
+            }
+            
+        }
+        
+        function update() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);            
+            ctx.fillStyle = "red";
+            for (var i=0; i<rockList.length; i++) {
+                ctx.fillRect(rockList[i].x,rockList[i].y,rockList[i].width,rockList[i].height);
+                rockList[i].x = rockList[i].x + rockList[i].speedX;
+                rockList[i].y = rockList[i].y + rockList[i].speedY;
+                //rock borders//
+                if (rockList[i].x<=0) {
+                    rockList[i].x = canvas.width-21;
+                }
+                if (rockList[i].y<=0) {                
+                    rockList[i].y = canvas.height-21;;
+                }
+                if (rockList[i].x+20>=canvas.width) {                
+                    rockList[i].x = 1;
+                }
+                if (rockList[i].y+20>=canvas.height) {                
+                    rockList[i].y = 1;
+                }
+            }
+            
+            ctx.fillStyle = "blue";
+            ctx.fillRect(x,y,150,150);      
+
+            movementKeys();
+            friction();
+            x = x + speedX;
+            y = y + speedY;
+            
+            borders();
+
+        }
+        
+        
+                
+        
+        
+    </script>
+  </body>
+</html>
