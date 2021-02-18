@@ -73,18 +73,14 @@
 
         function collisionCheck(){
             if (playerObj.y > terrainObj.y+terrainObj.height){
-                ctx.fillText("top",playerObj.x+10,playerObj.y-10);
-            } else if (playerObj.y+playerObj.height < terrainObj.height) {
-                ctx.fillText("bottom",playerObj.x+20,playerObj.y-10);
+                
+            } else if (playerObj.y+playerObj.height < terrainObj.y) {
 
             } else if (playerObj.x > terrainObj.x+terrainObj.width) {
-                ctx.fillText("left",playerObj.x+30,playerObj.y-10);
 
             } else if (playerObj.x+playerObj.width < terrainObj.x) {
-                ctx.fillText("right",playerObj.x+40,playerObj.y-10);
 
             } else {
-               //console.log("Player and Terrain Have Collided!!!")
                ctx.fillText("collided",playerObj.x+10,playerObj.y-10);
             }
         }
