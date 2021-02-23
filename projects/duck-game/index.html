@@ -57,7 +57,7 @@
             if (playerObj.speedX === 0) {
 
             } else if(playerObj.speedX>0) {
-                playerObj.speedX = playerObj.speedX - frictionVar;
+                playerObj.speedX = playerObj.speedX - (frictionVar + 0.1);
             } else {
                 playerObj.speedX = playerObj.speedX + frictionVar;
             }
@@ -65,7 +65,7 @@
             if (playerObj.speedY === 0) {
 
             } else if(playerObj.speedY>0) {
-                playerObj.speedY = playerObj.speedY - frictionVar;
+                playerObj.speedY = playerObj.speedY - (frictionVar + 0.1);
             } else {
                 playerObj.speedY = playerObj.speedY + frictionVar;
             }
