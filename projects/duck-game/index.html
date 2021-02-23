@@ -24,9 +24,9 @@
         var LeftPressed = false;
         
         //Objects//
-        var backgroundObj = {x:0,y:0,width:canvas.width,height:canvas.height,color:"green"}
-        var playerObj = {x:1,y:canvas.height-103,width:50,height:50,color:"cyan",speedX:0,speedY:0}
-        var terrainObj = {x:0,y:canvas.height-50,width:canvas.width,height:40,color:"gray"}
+        var backgroundObj = {x:0,y:0,width:canvas.width,height:canvas.height,color:"green"};
+        var playerObj = {x:1,y:canvas.height-103,width:50,height:50,color:"cyan",speedX:0,speedY:0};
+        var terrainObj = {x:0,y:canvas.height-50,width:canvas.width,height:40,color:"gray"};
         
         function borders() {
             if (playerObj.x<0) {
@@ -81,12 +81,19 @@
             } else if (playerObj.x+playerObj.width < terrainObj.x) {
 
             } else {
-               ctx.fillText("collided",playerObj.x+10,playerObj.y-10);
+               ctx.fillText("OK you've collided, congrats!",playerObj.x+10,playerObj.y-10);
+               //Look at bounding box collision//
+               if (xOld + playerObj.width < terrainObj.x && playerObj.x+playerObj.width >terrainObj.x){
+                   console.log("")
+               }
             }
         }
 
 
+
         function update() {
+            playerObj.xOld=playerObj.x;
+            playerObj.yOld=playerObj.y;
             //background//
             ctx.fillStyle = backgroundObj.color;
             ctx.fillRect(backgroundObj.x,backgroundObj.y,backgroundObj.width,backgroundObj.height);
