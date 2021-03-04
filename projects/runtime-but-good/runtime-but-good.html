@@ -27,40 +27,40 @@
         var streetLight = document.getElementById("streetLight");
         var halle = document.getElementById("halle");
 
-        setInterval(main,50)
+        setInterval(main,50);
 
-        var x = 0 
-        var y = 0 
-        var speedX = 0
-        var speedY = 0
-        var upPress = false
-        var leftPress = false
-        var downPress = false
-        var rightPress = false
-        var spacePress = false
-        var walkSpeed = 1
-        var frameCount = 0
-        halleHeight = 140
-        halleWidth = 85
-        pictureX = 2297
-        pictureY = 1330
+        var x = 0;
+        var y = 0;
+        var speedX = 0;
+        var speedY = 0;
+        var upPress = false;
+        var leftPress = false;
+        var downPress = false;
+        var rightPress = false;
+        var spacePress = false;
+        var walkSpeed = 1;
+        var frameCount = 0;
+        halleHeight = 140;
+        halleWidth = 85;
+        pictureX = 2297;
+        pictureY = 1330;
 
 
         function main(){
-            frameCount++
-            ctx.clearRect(0,0,1000,1000)
-            x = x + speedX
-            y = y + speedY
+            frameCount++;
+            ctx.clearRect(0,0,1000,1000);
+            x = x + speedX;
+            y = y + speedY;
             //ctx.drawImage(imageVaribale, sourceY, SourceX, sourceWidth, sourceHeight, canvasX, canvasY, finalWidth, finalHeight)
             //https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
             //you only need the extra four source arguments if you want to only display a portion of the picture, if you want to show the whole picture you can just do drawImage(imageVar, canvasx, canvasy, width,height)
-            ctx.drawImage(halle,pictureX,pictureY,halleWidth,halleHeight,x,y,halleWidth,halleHeight)
+            ctx.drawImage(halle,pictureX,pictureY,halleWidth,halleHeight,x,y,halleWidth,halleHeight);
             if(frameCount > 1){
-                pictureX += halleWidth
-                frameCount = 0
+                pictureX += halleWidth;
+                frameCount = 0;
                 if (pictureX>=halle.width-halleWidth) {
-                    pictureX = 4
-                    pictureY = 1460
+                    pictureX = 4;
+                    pictureY = 1460;
                     //whoever did the sprite sheet is a big stupid doo-doo head, and made all the Halle sprites super uneven, so if you want it to be perfect you'd have to go through
                     //frame-by-frame and mark where you want each new frame drawn, which is a pain. These coordinates (x=4,y=1460) are the closest you can get to perfect, which is why
                     // we hard-code the numbers instead of using length and width vars.
@@ -75,69 +75,69 @@
 
 
             if(upPress){
-                speedY -= walkSpeed
+                speedY -= walkSpeed;
             }
             if(downPress){
-                speedY += walkSpeed
+                speedY += walkSpeed;
             }
             if(leftPress){
-                speedX -= walkSpeed
+                speedX -= walkSpeed;
             }
             if(rightPress){
-                speedX += walkSpeed
+                speedX += walkSpeed;
             }
 
 
             if(x > canvas.width){
-                speedX = -speedX
+                speedX = -speedX;
             }
             if(x < 0){
-                speedX = -speedX
+                speedX = -speedX;
             }
             if(y > canvas.height){
-                speedY = -speedY
+                speedY = -speedY;
             }
             if(y < 0){
-                speedY = -speedY
+                speedY = -speedY;
             }
         }
 
-    document.addEventListener("keydown", keyleftPress,false)
-	document.addEventListener("keyup", keyuppress,false)
+    document.addEventListener("keydown", keyleftPress,false);
+	document.addEventListener("keyup", keyuppress,false);
 
 	function keyleftPress(e){
 		if(e.key === "ArrowUp"){
-			upPress= true
+			upPress= true;
 		}
 		if(e.key === "ArrowLeft"){
-			leftPress= true
+			leftPress= true;
 		}
 		if(e.key === "ArrowDown"){
-			downPress= true
+			downPress= true;
 		}
 		if(e.key === "ArrowRight"){
-			rightPress= true
+			rightPress= true;
 		}
 		if(e.key === " "){
-			spacePress= true
+			spacePress= true;
 		}
 			
 	}
 	function keyuppress(e){
 		if(e.key === "ArrowUp"){
-			upPress= false
+			upPress= false;
 		}
 		if(e.key === "ArrowLeft"){
-			leftPress= false
+			leftPress= false;
 		}
 		if(e.key === "ArrowDown"){
-			downPress= false
+			downPress= false;
 		}
 		if(e.key === "ArrowRight"){
-			rightPress= false
+			rightPress= false;
 		}
 		if(e.key === " "){
-			spacePress= false
+			spacePress= false;
 		}
 	}
 
