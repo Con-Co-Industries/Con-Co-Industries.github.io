@@ -16,10 +16,7 @@ var RightPressed = false;
 var LeftPressed = false;
 
 //Objects//
-var backgroundObj = { x: 0, y: 0, width: canvas.width, height: canvas.height, color: "green" };
-var playerObj = { x: 1, y: canvas.height - 103, width: 50, height: 50, color: "cyan", speedX: 0, speedY: 0 };
-var terrainObj = { x: 0, y: canvas.height - 50, width: canvas.width, height: 40, color: "gray" };
-var terrainObjList = []
+var terrainObjList = [];
 
 
 function borders() {
@@ -66,38 +63,41 @@ function friction() {
 }
 
 function collisionCheck() {
-    if (playerObj.y > terrainObj.y + terrainObj.height) {
+    for (var i=0; i<terrainObjList.length; i++) {
+        if (playerObj.y > terrainObjList[i].y + terrainObjList[i].height) {
 
-    } else if (playerObj.y + playerObj.height < terrainObj.y) {
+        } else if (playerObj.y + playerObj.height < terrainObjList[i].y) {
 
-    } else if (playerObj.x > terrainObj.x + terrainObj.width) {
+        } else if (playerObj.x > terrainObjList[i].x + terrainObjList[i].width) {
 
-    } else if (playerObj.x + playerObj.width < terrainObj.x) {
+        } else if (playerObj.x + playerObj.width < terrainObjList[i].x) {
 
-    } else {
-        //Look at bounding box collision//
-        if (playerObj.oldX + playerObj.width <= terrainObj.x && playerObj.x + playerObj.width > terrainObj.x) {
-            //Ok, so funny bug thing. If you make your oldX check *less than* terrainObj.x (<), then place the playerObj at the terrainObj.x, the check only runs once, because
-            //(cont) terrainObj.x *equals* terrainObj.x, and therefore terrainObj.x isn't *less than* terrainObj.x (similar to the 1-in-256 glitch: 255 isn't less than 255). 
-            //(cont) There are 2 ways to fix this: either make the check less than OR EQUAL TO (<=), which works better and is what I did here, or just don't place the playerObj at the terrainObj.x (which looks jankier)
-            playerObj.speedX = 0;
-            playerObj.x = terrainObj.x - playerObj.width;
-        } else if (playerObj.oldX >= terrainObj.x + terrainObj.width && playerObj.x < terrainObj.x + terrainObj.width) {
-            console.log("Collision from Right")
-            playerObj.speedX = 0;
-            playerObj.x = terrainObj.x + terrainObj.width;
-        } else if (playerObj.oldY + playerObj.height <= terrainObj.y && playerObj.y + playerObj.height > terrainObj.y) {
-            console.log("Collision from Top")
-            playerObj.speedY = 0;
-            playerObj.y = terrainObj.y - playerObj.height;
-        } else if (playerObj.oldY >= terrainObj.y + terrainObj.height && playerObj.y < terrainObj.y + terrainObj.height) {
-            console.log("Collision from Bottom")
-            playerObj.speedY = 0;
-            playerObj.y = terrainObj.y + terrainObj.height;
         } else {
+            //Look at bounding box collision//
+            if (playerObj.oldX + playerObj.width <= terrainObjList[i].x && playerObj.x + playerObj.width > terrainObjList[i].x) {
+                //Ok, so funny bug thing. If you make your oldX check *less than* terrainObj.x (<), then place the playerObj at the terrainObj.x, the check only runs once, because
+                //(cont) terrainObj.x *equals* terrainObj.x, and therefore terrainObj.x isn't *less than* terrainObj.x (similar to the 1-in-256 glitch: 255 isn't less than 255). 
+                //(cont) There are 2 ways to fix this: either make the check less than OR EQUAL TO (<=), which works better and is what I did here, or just don't place the playerObj at the terrainObj.x (which looks jankier)
+                playerObj.speedX = 0;
+                playerObj.x = terrainObjList[i].x - playerObj.width;
+            } else if (playerObj.oldX >= terrainObjList[i].x + terrainObjList[i].width && playerObj.x < terrainObjList[i].x + terrainObjList[i].width) {
+                console.log("Collision from Right")
+                playerObj.speedX = 0;
+                playerObj.x = terrainObjList[i].x + terrainObjList[i].width;
+            } else if (playerObj.oldY + playerObj.height <= terrainObjList[i].y && playerObj.y + playerObj.height > terrainObjList[i].y) {
+                console.log("Collision from Top")
+                playerObj.speedY = 0;
+                playerObj.y = terrainObjList[i].y - playerObj.height;
+            } else if (playerObj.oldY >= terrainObjList[i].y + terrainObjList[i].height && playerObj.y < terrainObjList[i].y + terrainObjList[i].height) {
+                console.log("Collision from Bottom")
+                playerObj.speedY = 0;
+                playerObj.y = terrainObjList[i].y + terrainObjList[i].height;
+            } else {
 
+            }
         }
     }
+    
 }
 
 
@@ -109,8 +109,10 @@ function update() {
     ctx.fillStyle = backgroundObj.color;
     ctx.fillRect(backgroundObj.x, backgroundObj.y, backgroundObj.width, backgroundObj.height);
     //terrain//
-    ctx.fillStyle = terrainObj.color;
-    ctx.fillRect(terrainObj.x, terrainObj.y, terrainObj.width, terrainObj.height);
+    for (var i=0; i<terrainObjList.length; i++) {
+        ctx.fillStyle = terrainObjList[i].color;
+        ctx.fillRect(terrainObjList[i].x, terrainObjList[i].y, terrainObjList[i].width, terrainObjList[i].height);
+    }
     //player character//
     ctx.fillStyle = playerObj.color;
     ctx.fillRect(playerObj.x, playerObj.y, playerObj.width, playerObj.height);
