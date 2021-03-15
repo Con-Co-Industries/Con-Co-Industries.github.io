@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>runtime
+    </title>
+    <style>
+        img{
+            display:none;
+        }
+    </style>
+  </head>
+  <body>
+    <canvas id='canvas' width='500' height="500"></canvas>
+    <img id='halle' src='halle-v9.png'>
+
+    <script>
+        var canvas = document.getElementById("canvas")
+        var ctx = canvas.getContext('2d')
+        var halle = document.getElementById("halle")
+        setInterval(main,50) 
+
+        document.addEventListener("keydown", keydownpress,false);
+        document.addEventListener("keyup", keyuppress, false);
+        //variables//
+        var cropX = 600; 
+        var cropY = 1468; 
+        var cropHeight = 112;
+        var cropWidth = 71;
+		var destinationWidth = 71;
+		var destinationHeight = 112;
+        var destinationX = 0;
+        var destinationY = 0;
+        var boxX = 150;
+        var boxSpeedX = 4;
+        var speedY = 0;
+        var UpPressed = false;
+        var gravity = speedY + 1; 
+
+
+        function keydownpress(e) {            
+            if(e.key === "ArrowUp") {
+                UpPressed = true;
+            }            
+        }
+        
+        function keyuppress(e) {            
+            if(e.key === "ArrowUp") {
+                UpPressed = false;
+            }            
+        }
+
+        function main(){
+            ctx.clearRect(0,0,1000,1000)
+            ctx.drawImage(halle, cropX, cropY, cropWidth, cropHeight, destinationX, destinationY, destinationWidth, destinationHeight)
+            //https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
+            cropX = cropX + 71;
+            if (cropX >= 2730) {
+                cropX = 600;
+            }
+            ctx.fillRect(boxX, 58, 50, 50);
+            boxX = boxX - boxSpeedX
+            if (boxX < -50) {
+                boxX = canvas.width;
+            }
+            
+            if (UpPressed) {
+                speedY = speedY - 2;
+            }
+            
+            speedY = speedY + gravity;
+            destinationY = destinationY + speedY;
+            if (destinationY > 0) {
+                destinationY = 0;
+                speedY = 0;
+            }
+        }
+         
+
+    </script>
+  </body>
+</html>

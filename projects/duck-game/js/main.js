@@ -17,6 +17,7 @@ var LeftPressed = false;
 
 //Objects//
 var terrainObjList = [];
+var npcObjList = [];
 
 
 function borders() {
@@ -62,7 +63,7 @@ function friction() {
     }
 }
 
-function collisionCheck() {
+function terrainCollisionCheck() {
     for (var i=0; i<terrainObjList.length; i++) {
         if (playerObj.y > terrainObjList[i].y + terrainObjList[i].height) {
 
@@ -81,17 +82,47 @@ function collisionCheck() {
                 playerObj.speedX = 0;
                 playerObj.x = terrainObjList[i].x - playerObj.width;
             } else if (playerObj.oldX >= terrainObjList[i].x + terrainObjList[i].width && playerObj.x < terrainObjList[i].x + terrainObjList[i].width) {
-                console.log("Collision from Right")
                 playerObj.speedX = 0;
                 playerObj.x = terrainObjList[i].x + terrainObjList[i].width;
             } else if (playerObj.oldY + playerObj.height <= terrainObjList[i].y && playerObj.y + playerObj.height > terrainObjList[i].y) {
-                console.log("Collision from Top")
                 playerObj.speedY = 0;
                 playerObj.y = terrainObjList[i].y - playerObj.height;
             } else if (playerObj.oldY >= terrainObjList[i].y + terrainObjList[i].height && playerObj.y < terrainObjList[i].y + terrainObjList[i].height) {
-                console.log("Collision from Bottom")
                 playerObj.speedY = 0;
                 playerObj.y = terrainObjList[i].y + terrainObjList[i].height;
+            } else {
+
+            }
+        }
+    }
+    
+}
+
+function npcCollisionCheck() {
+    for (var i=0; i<npcObjList.length; i++) {
+        if (playerObj.y > npcObjList[i].y + npcObjList[i].height) {
+
+        } else if (playerObj.y + playerObj.height < npcObjList[i].y) {
+
+        } else if (playerObj.x > npcObjList[i].x + npcObjList[i].width) {
+
+        } else if (playerObj.x + playerObj.width < npcObjList[i].x) {
+
+        } else {
+            //Look at bounding box collision//
+            if (playerObj.oldX + playerObj.width <= npcObjList[i].x && playerObj.x + playerObj.width > npcObjList[i].x) {
+                //You run into the same issue here as you do with terrainObjList (I think)
+                playerObj.speedX = 0;
+                playerObj.x = npcObjList[i].x - playerObj.width;
+            } else if (playerObj.oldX >= npcObjList[i].x + npcObjList[i].width && playerObj.x < npcObjList[i].x + npcObjList[i].width) {
+                playerObj.speedX = 0;
+                playerObj.x = npcObjList[i].x + npcObjList[i].width;
+            } else if (playerObj.oldY + playerObj.height <= npcObjList[i].y && playerObj.y + playerObj.height > npcObjList[i].y) {
+                playerObj.speedY = 0;
+                playerObj.y = npcObjList[i].y - playerObj.height;
+            } else if (playerObj.oldY >= npcObjList[i].y + npcObjList[i].height && playerObj.y < npcObjList[i].y + npcObjList[i].height) {
+                playerObj.speedY = 0;
+                playerObj.y = npcObjList[i].y + npcObjList[i].height;
             } else {
 
             }
@@ -112,6 +143,13 @@ function update() {
     for (var i=0; i<terrainObjList.length; i++) {
         ctx.fillStyle = terrainObjList[i].color;
         ctx.fillRect(terrainObjList[i].x, terrainObjList[i].y, terrainObjList[i].width, terrainObjList[i].height);
+        terrainCollisionCheck();
+    }
+    //NPC//
+    for (var i=0; i<npcList.length; i++) {
+        ctx.fillStyle = npcObjList[i].color;
+        ctx.fillRect(npcObjList[i].x, npcObjList[i].y, npcObjList[i].width, npcObjList[i].height);
+        npcCollisionCheck();
     }
     //player character//
     ctx.fillStyle = playerObj.color;
@@ -123,7 +161,6 @@ function update() {
     // use this if you want the player to have gravity: playerObj.speedY =playerObj.speedY + gravity;//
     playerObj.x = playerObj.x + playerObj.speedX;
     playerObj.y = playerObj.y + playerObj.speedY;
-    collisionCheck();
     borders();
 
 }
