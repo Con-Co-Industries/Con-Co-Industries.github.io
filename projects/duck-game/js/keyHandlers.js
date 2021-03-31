@@ -15,6 +15,12 @@ function keyDownHandler(e) {
     if(e.key === "ArrowLeft") {
         LeftPressed = true;
     }
+    if(e.key === " ") {
+        SpacePressed = !SpacePressed;
+    }
+    if(e.key === "o") {
+        oPressed = !oPressed;
+    }
 
 }
 
@@ -31,20 +37,7 @@ function keyUpHandler(e) {
     if(e.key === "ArrowLeft") {
         LeftPressed = false;
     }
-
+    
 }
 
-function movementKeys() {
-    if (DownPressed) {
-        playerObj.speedY = playerObj.speedY + 3;
-    }
-    if (UpPressed) {
-        playerObj.speedY = playerObj.speedY - 3;
-    }
-    if (RightPressed) {
-        playerObj.speedX = playerObj.speedX + 3;
-    }
-    if (LeftPressed) {
-        playerObj.speedX = playerObj.speedX - 3;
-    }
-}
+
