@@ -1,5 +1,4 @@
-
-var currentBtn = {num: 0, boolean: false}
+//This is literally just a referecnce for the original combat button code stuff, don't actually use anything in here
 
 function drawButtons() { 
     ctx.fillStyle = "white";
@@ -46,21 +45,6 @@ function drawButtons() {
     }   
 }
 
-function drawFeather() {
-    ctx.drawImage(featherImage, btnObj[currentBtn.num].x+10, btnObj[currentBtn.num].y +10, 40, 40)
-    if (RightPressed) {
-        currentBtn.num = (currentBtn.num+1) % btnObj.length;
-        //by adding %4, you're basically dividing your currentBtn# by 4, so you'll always have a remainder between 0 and 3, which is exactly what each # of our buttons are
-        RightPressed = false;         
-    }
-    if (LeftPressed) {
-        currentBtn.num = Math.abs((currentBtn.num-1) % btnObj.length);
-        LeftPressed = false;
-    }
-    currentBtn.num = currentBtn.num % btnObj.length;  
-    
-}
-
 function buttonPressed() {
     switch (currentBtn.num) {
         case 0:
@@ -81,54 +65,3 @@ function buttonPressed() {
     }
     SpacePressed = !SpacePressed;
 }
-
-
-function drawButtons2() {
-    for (i=0; i<btnObj.length; i++) {
-        ctx.fillStyle = btnObj[i].color;
-        ctx.fillText(btnObj[i].txt, btnObj[i].txtX, btnObj[i].txtY);
-        ctx.strokeRect(btnObj[i].x,btnObj[i].y,btnObj[i].width, btnObj[i].height);
-        if (currentBtn.boolean === true && currentBtn.num === 0) {
-            attackDraw();
-        }
-        if (currentBtn.boolean === true && currentBtn.num === 2) {
-            itemDraw();
-        }
-
-    }
-}
-
-function buttonPressed2() {
-    currentBtn.boolean = true;
-    if (currentBtn.boolean === true && currentBtn.num === 1) {
-        ctx.fillStyle = "white";
-        ctx.fillText("You Just Defended!", 20, 50);
-        currentBtn.boolean = false;
-    }
-    if (currentBtn.boolean === true && currentBtn.num === 3) {
-        !oPressed;
-        currentBtn.boolean = false;
-    }
-
-}
-
-
-function combat() {
-    //background//
-    ctx.fillStyle = "black";
-    ctx.fillRect(backgroundObj.x, backgroundObj.y, backgroundObj.width, backgroundObj.height);
-
-    ctx.drawImage(enemyObjList.bergmite.picture, 387, 50)
-
-    
-
-    //Buttons//
-    drawButtons();
-    drawFeather();
-    
-    if (SpacePressed) {
-        buttonPressed();
-    }
-}
-
-

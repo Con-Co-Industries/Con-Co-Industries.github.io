@@ -21,6 +21,9 @@ function keyDownHandler(e) {
     if(e.key === "o") {
         oPressed = !oPressed;
     }
+    if(e.key === "s") {
+        sPressed = !sPressed;
+    }
 
 }
 
@@ -40,4 +43,23 @@ function keyUpHandler(e) {
     
 }
 
+function movementKeys() {
+    if (DownPressed) {
+        playerObj.speedY = playerObj.speedY + 3;
+    }
+    if (UpPressed) {
+        playerObj.speedY = playerObj.speedY - 3;
+    }
+    if (RightPressed) {
+        playerObj.speedX = playerObj.speedX + 3;
+    }
+    if (LeftPressed) {
+        playerObj.speedX = playerObj.speedX - 3;
+    }
+}
 
+//Remember to put the feather movement from combat in here//
+
+if (sPressed) {
+    save()
+}
