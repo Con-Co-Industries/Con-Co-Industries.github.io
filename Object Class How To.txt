@@ -1,0 +1,13 @@
+class *insert name here* {
+    constructor() {
+        this.*insert property here* = *insert data here*;
+    }
+}
+
+EX:
+
+class Frog {
+    constructor() {
+        this.sound = "ribbit";
+    }
+}
