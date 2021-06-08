@@ -10,7 +10,7 @@ function runProgram(){
   // Constant Variables
   var FRAME_RATE = 60;
   var FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
-  var KEY = { //uggggggghhhhhhh these are the key code values because we have to pratice the dumb magic numbers
+  var KEY = { //these are the key code values to avoid magic numbers
     "LEFT": 37,
     "UP": 38,
     "RIGHT": 39,
@@ -85,11 +85,31 @@ function runProgram(){
   function repositionGameItem(){
     positionX += speedX; // update the position of the game item along the x-axis
     positionY += speedY; // update the position of the game item along the y-axis
+    checkBorders(); //call the checkBorder function here, so the position gets fixed in the reposition function
   }
 
   function redrawGameItem(){
     $("#gameItem").css("left", positionX);    // draw the game item in the new location, positionX pixels away from the "left"
     $("#gameItem").css("top", positionY);    // draw the game item in the new location, positionY pixels away from the "top"
+  }
+
+  function checkBorders(){
+    if (positionX + 50 >= $("#board").width()) { //if the position of the game item is going to be over the right border
+      console.log("right border");
+      positionX = $("#board").width() -50; //reset the position back to the border
+    }
+    if (positionY + 50 >= $("#board").height()) { //if the position of the game item is going to be over the bottom border
+      console.log("bottom border");
+      positionY = $("#board").height() -50; //reset the position back to the border
+    }
+    if (positionX  <= 0) { //if the position of the game item is going to be less than the left border
+      console.log("left border");
+      positionX = 0; //reset the position back to the border
+    }
+    if (positionY <= 0) { //if the position of the game item is going to be less than the top border
+      console.log("top border");
+      positionY = 0; //reset the position back to the border
+    }
   }
 
   
