@@ -15,9 +15,26 @@ function runProgram(){
     "UP": 38,
     "RIGHT": 39,
     "DOWN": 40,
+    "A": 65,
+    "D": 68,
+    "S": 83,
+    "W": 87,
   }
   
   // Game Item Objects
+  var player1 = {
+    positionX: 0, // the x-coordinate location for the game item
+    positionY: 0, // the speed for the game item along the x-axis
+    speedX: 0, // the y-coordinate location for the game item
+    speedY: 0, // the speed for the game item along the y-axis
+  }
+  var player2 = {
+    positionX: 0, // the x-coordinate location for the game item
+    positionY: 0, // the speed for the game item along the x-axis
+    speedX: 0, // the y-coordinate location for the game item
+    speedY: 0, // the speed for the game item along the y-axis
+  }
+  
   var positionX = 0; // the x-coordinate location for the game item
   var speedX = 0; // the speed for the game item along the x-axis
   var positionY = 0; // the y-coordinate location for the game item
@@ -29,6 +46,7 @@ function runProgram(){
   var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
   $(document).on('keydown', handleKeyDown);
   $(document).on('keyup', handleKeyUp);
+  makePlayer2();
 
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
@@ -49,31 +67,32 @@ function runProgram(){
   */
   function handleKeyDown(event) {
     if (event.which === KEY.LEFT) { //when the left arrow is pressed, make speedX -5
-      speedX = -5; 
+      console.log("left pressed");
+      player1.speedX = -5; 
     }
     if (event.which === KEY.UP) { //when the up arrow is pressed, make speedY -5
-      speedY = -5;
+      player1.speedY = -5;
     }
     if (event.which === KEY.RIGHT) { //when the right arrow is pressed, make speedX 5
-      speedX = 5;
+      player1.speedX = 5;
     }
     if (event.which === KEY.DOWN) { //when the up arrow is pressed, make speedY 5
-      speedY = 5;
+      player1.speedY = 5;
     }
   }
 
   function handleKeyUp(event) {
     if (event.which === KEY.LEFT) { //when the left arrow is released, reset speedX to 0
-      speedX = 0; 
+      player1.speedX = 0; 
     }
     if (event.which === KEY.UP) { //when the up arrow is released, reset speedY to 0
-      speedY = 0;
+      player1.speedY = 0;
     }
     if (event.which === KEY.RIGHT) { //when the right arrow is released, reset speedX to 0
-      speedX = 0;
+      player1.speedX = 0;
     }
     if (event.which === KEY.DOWN) { //when the up arrow is released, reset speedY to 0
-      speedY = 0;
+      player1.speedY = 0;
     }
   }
 
@@ -112,7 +131,20 @@ function runProgram(){
     }
   }
 
+  function makePlayer2(){
+    $('<div>')
+      .css("height", 50)
+      .css("width", 50)
+      .css("background-color", "teal")
+      .css("position", "absolute")
+      .css('top', 100)
+      .css('left', 100)
+      .attr("id", "gameItem2")
+      .appendTo("#board");
+  }
   
+  
+
   function endGame() {
     // stop the interval timer
     clearInterval(interval);
