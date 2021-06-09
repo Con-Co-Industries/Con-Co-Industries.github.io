@@ -11,11 +11,14 @@ body {
   position: relative;
 }
 
-#gameItem {
+.gameItem {
   background-color: teal;
   width: 50px;
   height: 50px;
   position: absolute;
-/*   left: 100px; */  /* Uncomment if you want to set a "starting" position */
-/*   top: 100px;  */  /* Uncomment if you want to set a "starting" position */
+}
+
+#player1 {
+  top: 0px;
+  left: 0px;  
 }
