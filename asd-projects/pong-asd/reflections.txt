@@ -1,0 +1,92 @@
+///////////////////////////////////////////////
+///////////User Story / Gameplay///////////////
+///////////////////////////////////////////////
+
+-Describe The Gameplay: the gameplay of pong is bery similar to tennis; two players each control a 'paddle'
+{cont.} (usually a thin white box) and try to bounce a 'ball' (a small white circle) past the opposing player's
+{cont.} paddle. If they do, the player scores a point and the ball resets towards the center.
+
+-What are the conditions when the game begins: when the game begins, the ball will be at the center of the 
+{cont.} screen. There will be a prompt that says 'Press Space to begin the game'. Player1's paddle will be in the
+{cont.} middle of the screen vertically and left horizontally, Player2's paddle will be right and middle. 
+{cont.} The score will be 0-0 
+
+-Does the game have an end, and if so what are the conditions for when it ends: The game ends when one
+{cont.} player reaches 11 points.
+
+-What `if` s will there be: There's a lot... 
+1: if the ball contacts a paddle, reverse the ball's horizontal speed (speedX)
+2: if the ball contacts the top or bottom of the screen, reverse the ball's vertical speed (speedY)
+3: if the ball contacts the left side of the screen, give player2 a point, reset the ball to the middle, and
+{cont.} start a three second countdown
+4: if the ball contacts the right side of the screen, give player1 a point, reset the ball to the middle, and
+{cont.} start a three second countdown
+5: if the space bar is pressed at the begining of the game, start a three second countdown, then randomly
+{cont.} send the ball towards the left or the right
+6: if a player hits 11 points, end the game
+7: if a paddle hits the top or the bottom of the board, set the speedY to 0
+
+
+
+///////////////////////////////////////////////
+///////////Visual Game Components//////////////
+///////////////////////////////////////////////
+
+
+-What are the visual game components: The paddles, the ball, the score boxes(is that what they're called?),
+{cont.} the starting text, the countdown, and the background
+    -Which are static: the score boxes and the background
+    -Which are animated: the paddles, the ball, the starting text (flashing), and the countdown
+
+-What data will you need to manage each game component: we'll need a positionX and positionY, as well as
+{cont.} a speedX and speedY the ball. both paddles will need a positionX and positionY, but only a speedY
+{cont.} since they're only moving up and down. we'll need a score value for both players, and a string
+{cont.} for the start text and a value for the countdown.
+
+
+///////////////////////////////////////////////
+///////////////Events / Logic//////////////////
+///////////////////////////////////////////////
+
+-What events will occur in this game: there will be three timer events (2 setInterval [one to make the text
+{cont.} flash], and a countdown) and 5 keyboard events (W, S, UpArrow, DownArrow, SpaceBar) to register 
+{cont.} player inputs.
+
+-How do those events affect the data of the program: the setInterval will affect the start string.
+{cont.} the countdown will affect the speedX and speedY of the ball, the SpaceBar will in turn affect
+{cont.} the countdown. W and S will affect the speedY of player1's paddle, and the UpArrow and the DownArrow
+{cont.} will affect the speedY of player2's paddle.
+
+-For each "event", write out the high-level logic of what will happen:
+
+EVENT1: W pressed
+1) speedY of player1 is increased
+
+EVENT2: S pressed
+1) speedY of player1 is decreased
+
+EVENT3: UpArrow pressed
+1) speedY of player2 is increased
+
+EVENT4: DownArrow pressed
+1) speedY of player2 is decreased
+
+EVENT5: SpaceBar pressed
+1) stop the setInterval that makes the text flash
+2) remove text from screen
+3) initalize countdown
+
+EVENT6: setInterval (game)
+1) every 1/60th of a second, run the main program
+
+EVENT7: setInterval (text)
+1) once* per second toggle the text color
+
+EVENT8: countdown initalized
+1) declare a num variable and set it to 3
+2) display num in the middle of the screen
+3) decrease num (once per second)
+
+
+
+*time subject to change
