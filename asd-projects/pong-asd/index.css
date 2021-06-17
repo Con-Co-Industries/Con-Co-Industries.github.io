@@ -63,10 +63,10 @@ body {
 #countdownBox{
   background-color: black;
   color: white;
-  width: 50px;
+  width: 440px;
   height: 50px; 
   position: absolute;
-  left: 195px;
+  left: 0px;
   top: 20px;
   text-align: center;
   font-size: 33px;

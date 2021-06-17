@@ -242,7 +242,8 @@ function runProgram(){
     // stop the interval timer
     stopCountdown();
     clearInterval(interval);
-    countdownBox.text = $(countdownBox.id).text("Game!");
+    var winner = player1ScoreBox.score === 11 ? 1 : 2;
+    countdownBox.text = $(countdownBox.id).text("Game! Player " + winner + " wins!");
     
 
     // turn off event handlers
