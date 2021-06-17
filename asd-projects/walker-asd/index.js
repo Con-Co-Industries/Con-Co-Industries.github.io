@@ -128,7 +128,8 @@ function runProgram(){
       .css('left', 100)
       .addClass("gameItem")
       .attr("id", "player2")
-      .appendTo("#board");
+      .appendTo("#board")
+      .css("background-color", "white");
   }
   
   function startTag(playerAmount){ //this can work for any amount of players, even though all we'll ever have is 2
@@ -152,7 +153,7 @@ function runProgram(){
     }
     else if ($( "#player2" ).css( "background-color") === "rgb(255, 0, 0)"){ //if player2's background is red
       $( "#player1" ).css( "background-color", "rgb(255, 0, 0)"); //make player1's background red
-      $( "#player2" ).css( "background-color", "teal"); //reset player2's background to teal
+      $( "#player2" ).css( "background-color", "white"); //reset player2's background to white
       console.log("player1 tagged");
     }
     player1Vars.positionX = 0; //no matter who gets tagged, always...
