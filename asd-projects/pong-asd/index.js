@@ -20,22 +20,19 @@ function runProgram(){
   var player2ScoreBox = FactoryPog('#player2ScoreBox');
   var countdownBox = FactoryPog('#countdownBox');
   var countdownTime = 3;
+  var dontRunMe = false;
   var countdownTimer;
   var oldSpeedX;
   var oldSpeedY;
   
 
   // one-time setup
-  resetBoard();
+  resetBoard(); //see the actual function for explanation
+  countdownBox.text = $(countdownBox.id).text("Press Space to Begin!"); 
   var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
   $(document).on('keydown', handleKeyDown);
-  $(document).on('keyup', handleKeyUp);
-  ball.speedY = 3; //since the speed in the FactoryPog is always automatically set to 0, 
-  ball.speedX = 3; //we need to set the speedX and speedY for the ball
-  //these just set the base text for the textboxes 
-  player1ScoreBox.text = $(player1ScoreBox.id).text(player1ScoreBox.score);
-  player2ScoreBox.text = $(player2ScoreBox.id).text(player2ScoreBox.score);
-  countdownBox.text = $(countdownBox.id).text("Go!");
+  $(document).on('keyup', handleKeyUp); 
+  
   
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
@@ -84,6 +81,10 @@ function runProgram(){
       console.log("player2 pressed down");
       rightPaddle.speedY = 5; 
     }
+    if (event.key === ' ') { //when the down arrow is pressed, make player2's paddle's speedY 5
+      console.log("SpacePressed");
+      beginGaming(); 
+    }
   }
 
   function handleKeyUp(event){
@@ -108,6 +109,24 @@ function runProgram(){
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
+
+  function beginGaming(){
+    if (!dontRunMe){ //if dontRunMe is false
+      dontRunMe = true; //set it to true
+      //NOTE: it'd technically make sense to have dontRunMe start as true and set it to false but I think it's
+      //{cont.} more intuitive that the function doesn't run if dontRunMe is true
+      
+      ball.speedY = 2.75; //since the speed in the FactoryPog is always automatically set to 0, 
+      ball.speedX = 2.75; // {cont.} we need to set the speedX and speedY for the ball
+      
+      player1ScoreBox.text = $(player1ScoreBox.id).text(player1ScoreBox.score); //this just shows the scores
+      player2ScoreBox.text = $(player2ScoreBox.id).text(player2ScoreBox.score);
+      reset();
+    }
+    else {
+      console.log("Nice Try, Cheater"); //No Cheating in my lobby
+    }
+  }
 
   function repositionGameItem(obj) {
     obj.x += obj.speedX; // update the position of the obj along the x-axis
