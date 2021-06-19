@@ -1,6 +1,6 @@
 
 body {
-  background-color: darkgreen;
+  background-color: darkblue;
 }
 
 #board {
@@ -16,7 +16,7 @@ body {
 }
 
 #leftPaddle{
-  background-color: white;
+  background-color: orange;
   width: 20px;
   height: 80px;
   border-radius: 10px;
@@ -26,7 +26,7 @@ body {
 }
 
 #rightPaddle{
-  background-color: white;
+  background-color: magenta;
   width: 20px;
   height: 80px;
   border-radius: 10px;
@@ -36,9 +36,9 @@ body {
 }
 
 #player1ScoreBox{
-  border: 1px solid white;
+  border: 1px solid  orange;
   background-color: black;
-  color: white;
+  color: orange;
   width: 50px;
   height: 50px; 
   position: absolute;
@@ -49,9 +49,9 @@ body {
 } 
 
 #player2ScoreBox{
-  border: 1px solid white;
+  border: 1px solid magenta;
   background-color: black;
-  color: white;
+  color: magenta;
   width: 50px;
   height: 50px; 
   position: absolute;

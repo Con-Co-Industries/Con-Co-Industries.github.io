@@ -288,6 +288,9 @@ function runProgram(){
     clearInterval(interval); //stop the game
     var winner = player1ScoreBox.score === 11 ? 1 : 2; //if player1 has more than 11, they won, otherwise player2 won
     countdownBox.text = $(countdownBox.id).text("Game! Player " + winner + " wins!"); //display the winner
+    var winnerColor = winner === 1 ? "orange" : "magenta";
+    $("body").css("background-color", winnerColor);
+    $("#countdownBox").css("color", winnerColor);
     
 
     // turn off event handlers
