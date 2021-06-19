@@ -20,16 +20,22 @@ function runProgram(){
   var player2ScoreBox = FactoryPog('#player2ScoreBox');
   var countdownBox = FactoryPog('#countdownBox');
   var countdownTime = 3;
-  ball.speedY = 3;
-  ball.speedX = 3;
-  player1ScoreBox.text = $(player1ScoreBox.id).text(player1ScoreBox.score);
-  player2ScoreBox.text = $(player2ScoreBox.id).text(player2ScoreBox.score);
+  var countdownTimer;
+  var oldSpeedX;
+  var oldSpeedY;
+  
 
   // one-time setup
+  resetBoard();
   var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
   $(document).on('keydown', handleKeyDown);
   $(document).on('keyup', handleKeyUp);
-  var countdownTimer;  
+  ball.speedY = 3; //since the speed in the FactoryPog is always automatically set to 0, 
+  ball.speedX = 3; //we need to set the speedX and speedY for the ball
+  //these just set the base text for the textboxes 
+  player1ScoreBox.text = $(player1ScoreBox.id).text(player1ScoreBox.score);
+  player2ScoreBox.text = $(player2ScoreBox.id).text(player2ScoreBox.score);
+  countdownBox.text = $(countdownBox.id).text("Go!");
   
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
@@ -104,70 +110,79 @@ function runProgram(){
   ////////////////////////////////////////////////////////////////////////////////
 
   function repositionGameItem(obj) {
-    obj.x += obj.speedX; // update the position of the box along the x-axis
-    obj.left = obj.x;
+    obj.x += obj.speedX; // update the position of the obj along the x-axis
+    obj.left = obj.x; //update the left and right properties of the object
     obj.right = obj.x + obj.width;
-    obj.y += obj.speedY;
-    obj.top = obj.y;
+    obj.y += obj.speedY; // update the position of the obj along the y-axis
+    obj.top = obj.y; //update the top and bottom properties of the object
     obj.bottom = obj.y + obj.height;
   }
 
-  function redrawGameItem(obj) {
+  function redrawGameItem(obj) { //this is pretty self explanitory...
     $(obj.id).css("top", obj.y);
     $(obj.id).css("left", obj.x);
   }
 
 
   function wallCollision(obj, type){
-    if (type === 'paddle') {
-      if (obj.top < board.top){
-        obj.y = board.top;
-      } else if (obj.bottom > board.bottom) {
-        obj.y = board.bottom - obj.height;
+    if (type === 'paddle') { //if the object is a paddle...
+      if (obj.top < board.top){ //and the top of the paddle is above the top of the board
+        obj.y = board.top; //reset the paddle's position to be touching the border
+      } 
+      else if (obj.bottom > board.bottom) { //do the same for the bottom
+        obj.y = board.bottom - obj.height; 
       }
     } 
-    else if (type === 'ball') { //If the object's type is ball
-      if (obj.top < board.top){
-        obj.top = board.top;
-        obj.speedY = -obj.speedY;
+    else if (type === 'ball') { //if the object is the ball...
+      if (obj.top < board.top){ //and the top of the ball is above the top of the board
+        obj.top = board.top; //reset the ball's position to be touching the border
+        obj.speedY = -obj.speedY; //and make the ball go the opposite way (on the y-axis)
       } 
-      else if (obj.bottom > board.bottom) {
-        obj.y = board.bottom - obj.height;
-        obj.speedY = -obj.speedY;
-      } else if (obj.left < board.left){
-        increaseScore(player2ScoreBox);
-      } else if (obj.right > board.right){
-        increaseScore(player1ScoreBox);
+      else if (obj.bottom > board.bottom) { //do the same for the bottom
+        obj.y = board.bottom - obj.height; 
+        obj.speedY = -obj.speedY; 
+      } else if (obj.left < board.left){ //if the ball hits the left side
+        increaseScore(player2ScoreBox); //run increaseScore for player 2 (since it's player1's side)
+      } else if (obj.right > board.right){ //if the ball hits the right side
+        increaseScore(player1ScoreBox); //run increaseScore for player 1 (since it's player2's side)
       }
+    }
+    else{ //if the object isn't the ball or a paddle
+      console.log("There is literally no physical way to get here.") //there's no reason for putting this here except for the fact i thought it was funny lmao
     }
   }
 
   function increaseScore(player){
-    player.score += 1;
-    player.text = $(player.id).text(player.score);
-    if (player.score >= 11){
-      endGame();
+    player.score += 1; //increase the player's score by 1
+    player.text = $(player.id).text(player.score); //print the new score
+    if (player.score >= 11){ //if the player's score is above 11
+      endGame(); //end the game
     }
-    else {
-      reset();
+    else { //if the player's score is below 11
+      reset(); //run the reset function
     }
   }
 
   function reset(){
-    ball.x = 210;
+    ball.x = 210; //set the ball back to the middle
     ball.y = 210;
-    if (ball.speedX > 0){
-      ball.speedX += 0.25;
-    } else {
-      ball.speedX -= 0.25;
-    }
-    if (ball.speedY > 0){
+
+    //so this makes sure that the ball's net speed always increases
+    if (ball.speedX > 0){ //if the ball's speedX is positive  
+      ball.speedX += 0.25; //add .25
+      
+    } else { //if the ball's speedX is negative
+      ball.speedX -= 0.25; //subtract .25
+    } 
+    if (ball.speedY > 0){ //this just does the same for the y axis
       ball.speedY += 0.25;
     } else {
       ball.speedY -= 0.25;
-    }
-    var num = Math.ceil(Math.random() * 4);
-    if (num === 1) {
+    } //I think there might be a way to avoid the if statements completely with Math.abs() but I couldn't figure it out D:
+    
+    //these if statements randomly choose a direction for the ball to move in based on num
+    var num = Math.ceil(Math.random() * 4); //this gives a random number from 1-4
+    if (num === 1) { 
       ball.speedX = -ball.speedX;
       ball.speedY = -ball.speedY;
     } else if (num === 2) {
@@ -175,42 +190,47 @@ function runProgram(){
     } else if (num === 3) {
       ball.speedY = -ball.speedY;
     }
-    clearInterval(interval);     
-    countdownTimer = setInterval(countdown, 500);
-    
-    
+
+    oldSpeedX = ball.speedX; //this records what the ball's speed is
+    oldSpeedY = ball.speedY;
+    ball.speedX = 0; //this pauses the ball's speed
+    ball.speedY = 0;     
+    countdownTimer = setInterval(countdown, 500); //I have 0 training with intervals, so I just copied what
+    //{cont.} you guys did with new func. and did some research to figure out how to make this work. I would
+    //{cont.} like to note that for some reason, functions called in intervals can't acess local vars. I'm sure
+    //{cont.} it's some scope/higher order function bs, but I'm too lazy to figure it out, so I just made
+    //{cont.} oldSpeedX&Y and the countdownTimer global vars
   }
 
   function countdown(){
-    countdownBox.score = countdownTime;
-    countdownBox.text = $(countdownBox.id).text(countdownBox.score);
+    countdownBox.score = countdownTime; //instead of adding another element to the factory, I decided to just use the score function for the countdown
+    //note: countdownTime is automatically set to three when the site is loaded
+    countdownBox.text = $(countdownBox.id).text(countdownBox.score); //display how many seconds until we start
     countdownTime -= 1;
-    if (countdownTime < 0) {
-      countdownBox.text = $(countdownBox.id).text("Go!");
-      stopCountdown();
-      interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL)
-      countdownTime = 3;
-    }
+    if (countdownTime < 0) { //when the countdown hits 0
+      countdownBox.text = $(countdownBox.id).text("Go!"); //we show "Go!" instead of 0
+      ball.speedX = oldSpeedX; //basically unpause the ball
+      ball.speedY = oldSpeedY;
+      clearInterval(countdownTimer); //stop the countdown interval
+      countdownTime = 3; //reset the countdownTime to three for next time
+    } //if you get bored check out line 280(?)
   }
 
-  function stopCountdown(){
-    clearInterval(countdownTimer);
-  }
 
   function paddleBallCollision(paddle) {
-    if (collisionCheck(paddle, ball)) {
-      ball.speedX = -ball.speedX;
-      if (ball.right > paddle.left && ball.left < paddle.left){        
-          ball.x = paddle.left - ball.width;
+    if (collisionCheck(paddle, ball)) { //if the collision check function returns true
+      ball.speedX = -ball.speedX; //make the ball go the opposite way
+      if (ball.right > paddle.left && ball.left < paddle.left){ //if the ball is colliding on the right of the paddle        
+          ball.x = paddle.left - ball.width; //set the ball back to the appropriate border
         }        
-      else if (ball.left < paddle.right && ball.right > paddle.right) {
-        ball.x = paddle.right;
+      else if (ball.left < paddle.right && ball.right > paddle.right) { //if the ball is colliding on the left of the paddle
+        ball.x = paddle.right; //set the ball back to the appropriate border
       }
     }
   }
     
 
-  function collisionCheck(obj1, obj2) {
+  function collisionCheck(obj1, obj2) { //this function just returns true if two objects are colliding and returns false if they aren't
     if ((obj1.left < obj2.right) && (obj1.right > obj2.left) && (obj1.top < obj2.bottom) && (obj1.bottom > obj2.top)) {
       return true;
 	  } else {
@@ -219,7 +239,7 @@ function runProgram(){
   }
   
 
-  function FactoryPog($id){
+  function FactoryPog($id){ //PogChamp
     var element = {};
     element.id = $id;
     element.x = parseFloat($(element.id).css("left"));
@@ -228,22 +248,27 @@ function runProgram(){
     element.speedY = 0;
     element.width = $(element.id).width();
     element.height = $(element.id).height();
-    element.left = element.x;
+    element.left = element.x; //to make the code more readable, I just added a left right up and down to everything 
     element.right = element.x + element.width;
     element.top = element.y;
     element.bottom = element.y + element.height;
-    element.score = 0;
+    element.score = 0; //this is just for the scoreboxes and the countdownBox
     return element;
   }
 
-  
+  function resetBoard() { //since top is used for the collision checks, but everything is absolute,
+    //{cont.} we need to reset the top and bottom of the board to 0 so the checks work, and I wanted to
+    //{cont.} just make this function to avoid magic numbers in the collision function
+    board.top = board.y - parseFloat($("#board").css("top"));
+    board.bottom = (board.y + board.width) - parseFloat($("#board").css("top"));
+  }
   
   function endGame() {
     // stop the interval timer
-    stopCountdown();
-    clearInterval(interval);
-    var winner = player1ScoreBox.score === 11 ? 1 : 2;
-    countdownBox.text = $(countdownBox.id).text("Game! Player " + winner + " wins!");
+    clearInterval(countdownTimer); //stop the countdown timer
+    clearInterval(interval); //stop the game
+    var winner = player1ScoreBox.score === 11 ? 1 : 2; //if player1 has more than 11, they won, otherwise player2 won
+    countdownBox.text = $(countdownBox.id).text("Game! Player " + winner + " wins!"); //display the winner
     
 
     // turn off event handlers
@@ -251,3 +276,9 @@ function runProgram(){
   }
   
 }
+
+//real quick, I'd just like to give a shoutout to my mom, because she was not only interested in my code,
+//{cont.} but she actually gave me an idea on how to pause the game while the countdown was going on.
+//{cont.} I did end up changing it, but not for a few days and honestly I think her idea is really interesting
+//{cont.} (her original idea was to just clear the newFrame interval) and in a different context is probably a
+//{cont.} really good way to handle pausing.

@@ -12,6 +12,7 @@ body {
   text-align: center;
   font-size: 33px;
   position: relative;
+  top: 51px;
 }
 
 #leftPaddle{
@@ -62,12 +63,13 @@ body {
 
 #countdownBox{
   background-color: black;
+  border: 1px solid white;
   color: white;
   width: 440px;
   height: 50px; 
   position: absolute;
-  left: 0px;
-  top: 20px;
+  left: -1px;
+  top: -51px;
   text-align: center;
   font-size: 33px;
 }
