@@ -83,3 +83,11 @@ body {
   left: 210px;
   top: 210px;
 }
+
+#line {
+  background-color: white;
+  width: 1px;
+  height: 440px;
+  position: absolute;
+  left: 220px;
+}

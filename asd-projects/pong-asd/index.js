@@ -20,7 +20,8 @@ function runProgram(){
   var player2ScoreBox = FactoryPog('#player2ScoreBox');
   var countdownBox = FactoryPog('#countdownBox');
   var countdownTime = 3;
-  var dontRunMe = false;
+  var running = false;
+  var paused = false;
   var countdownTimer;
   var oldSpeedX;
   var oldSpeedY;
@@ -83,7 +84,13 @@ function runProgram(){
     }
     if (event.key === ' ') { //when the down arrow is pressed, make player2's paddle's speedY 5
       console.log("SpacePressed");
-      beginGaming(); 
+      if(!running){
+        beginGaming();
+      } else if (paused){
+        resume();
+      } else {
+        pause();
+      }
     }
   }
 
@@ -111,10 +118,8 @@ function runProgram(){
   ////////////////////////////////////////////////////////////////////////////////
 
   function beginGaming(){
-    if (!dontRunMe){ //if dontRunMe is false
-      dontRunMe = true; //set it to true
-      //NOTE: it'd technically make sense to have dontRunMe start as true and set it to false but I think it's
-      //{cont.} more intuitive that the function doesn't run if dontRunMe is true
+      running = true; //NOTE: it'd technically make sense to have running start as true and set it to false but
+      //{cont.} I think it's more intuitive that running is true if the game is running
       
       ball.speedY = 2.75; //since the speed in the FactoryPog is always automatically set to 0, 
       ball.speedX = 2.75; // {cont.} we need to set the speedX and speedY for the ball
@@ -122,10 +127,19 @@ function runProgram(){
       player1ScoreBox.text = $(player1ScoreBox.id).text(player1ScoreBox.score); //this just shows the scores
       player2ScoreBox.text = $(player2ScoreBox.id).text(player2ScoreBox.score);
       reset();
-    }
-    else {
-      console.log("Nice Try, Cheater"); //No Cheating in my lobby
-    }
+  }
+
+  function pause(){
+    paused = true; //set paused to true so next time we hit space we'll unpause
+    countdownBox.text = $(countdownBox.id).text("Press Space To Resume"); //display Press Space To Resume
+    clearInterval(interval); //stop the game
+  }
+
+  function resume(){
+    paused = false; //set paused to false so next time we hit space we'll pause
+    interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL); //restart the game
+    countdownBox.text = $(countdownBox.id).text("Go!"); //display Go!
+    
   }
 
   function repositionGameItem(obj) {
@@ -232,7 +246,7 @@ function runProgram(){
       ball.speedY = oldSpeedY;
       clearInterval(countdownTimer); //stop the countdown interval
       countdownTime = 3; //reset the countdownTime to three for next time
-    } //if you get bored check out line 280(?)
+    } //if you get bored check out line 316
   }
 
 
@@ -279,7 +293,7 @@ function runProgram(){
     //{cont.} we need to reset the top and bottom of the board to 0 so the checks work, and I wanted to
     //{cont.} just make this function to avoid magic numbers in the collision function
     board.top = board.y - parseFloat($("#board").css("top"));
-    board.bottom = (board.y + board.width) - parseFloat($("#board").css("top"));
+    board.bottom = (board.y + board.height) - parseFloat($("#board").css("top"));
   }
   
   function endGame() {
@@ -301,6 +315,5 @@ function runProgram(){
 
 //real quick, I'd just like to give a shoutout to my mom, because she was not only interested in my code,
 //{cont.} but she actually gave me an idea on how to pause the game while the countdown was going on.
-//{cont.} I did end up changing it, but not for a few days and honestly I think her idea is really interesting
-//{cont.} (her original idea was to just clear the newFrame interval) and in a different context is probably a
-//{cont.} really good way to handle pausing.
+//{cont.} I didn't end up using it for the countdown, but her method (clear the newFrame interval) is how I 
+//{cont.} ended up handeling the actual pausing of the game with spacebar.
