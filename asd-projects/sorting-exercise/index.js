@@ -21,7 +21,6 @@ async function bubbleSort(array){
                 swap(array, i, j);
                 updateCounter(bubbleCounter);
                 await sleep();
-
             }
         }
     }
