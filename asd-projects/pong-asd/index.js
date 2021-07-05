@@ -58,8 +58,6 @@ function runProgram(){
     redrawGameItem(leftPaddle);
     redrawGameItem(rightPaddle);
     redrawGameItem(ball);
-    
-
   }
   
   /* 
